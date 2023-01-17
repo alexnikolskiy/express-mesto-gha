@@ -19,7 +19,7 @@ module.exports.getUserById = async function (req, res) {
   try {
     const user = await User.findById(req.params.userId);
     if (!user) {
-      const err = new Error('Запрошенный пользователь не найден');
+      const err = new Error(`Запрошенный пользователь с _id:${req.params.userId} не найден`);
       err.name = 'DocumentNotFound';
       throw err;
     }
@@ -52,7 +52,7 @@ module.exports.updateUser = async function (req, res) {
       },
     );
     if (!user) {
-      const err = new Error('Запрошенный пользователь не найден');
+      const err = new Error(`Запрошенный пользователь с _id:${owner} не найден`);
       err.name = 'DocumentNotFound';
       throw err;
     }
@@ -74,7 +74,7 @@ module.exports.updateAvatar = async function (req, res) {
       },
     );
     if (!user) {
-      const err = new Error('Запрошенный пользователь не найден');
+      const err = new Error(`Запрошенный пользователь с _id:${owner} не найден`);
       err.name = 'DocumentNotFound';
       throw err;
     }

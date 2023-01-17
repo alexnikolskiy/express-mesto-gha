@@ -20,11 +20,6 @@ module.exports.createCard = async function (req, res) {
     const owner = req.user._id;
     const { name, link } = req.body;
     const card = await Card.create({ name, link, owner });
-    if (!card) {
-      const err = new Error('Запрошенная карточка не найдена');
-      err.name = 'DocumentNotFound';
-      throw err;
-    }
     res.send({ data: card });
   } catch (err) {
     errorHandler(err, res);
@@ -35,7 +30,7 @@ module.exports.deleteCardById = async function (req, res) {
   try {
     const card = await Card.findByIdAndRemove(req.params.cardId);
     if (!card) {
-      const err = new Error('Запрошенная карточка не найдена');
+      const err = new Error(`Запрошенная карточка с id:${req.params.cardId} не найдена`);
       err.name = 'DocumentNotFound';
       throw err;
     }
@@ -54,7 +49,7 @@ module.exports.addLikeCard = async function (req, res) {
       { new: true },
     );
     if (!card) {
-      const err = new Error('Запрошенная карточка не найдена');
+      const err = new Error(`Запрошенная карточка с id:${req.params.cardId} не найдена`);
       err.name = 'DocumentNotFound';
       throw err;
     }
@@ -73,7 +68,7 @@ module.exports.deleteLikeCard = async function (req, res) {
       { new: true },
     );
     if (!card) {
-      const err = new Error('Запрошенная карточка не найдена');
+      const err = new Error(`Запрошенная карточка с id:${req.params.cardId} не найдена`);
       err.name = 'DocumentNotFound';
       throw err;
     }
