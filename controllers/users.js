@@ -51,7 +51,7 @@ module.exports.updateUser = async function (req, res) {
       },
     );
     if (user) {
-      res.send(user);
+      res.json(user);
     } else {
       throw new DocumentNotFoundError(`Пользователь с указанным _id:${owner} не найден`);
     }
