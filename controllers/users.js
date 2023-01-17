@@ -4,6 +4,11 @@ const errorHandler = require('../util/errorHandler');
 module.exports.getUsers = async function (req, res) {
   try {
     const users = await User.find({});
+    if (!users) {
+      const err = new Error('Запрошенные пользователи не найдены');
+      err.name = 'DocumentNotFound';
+      throw err;
+    }
     res.send(users);
   } catch (err) {
     errorHandler(err, res);
@@ -13,6 +18,11 @@ module.exports.getUsers = async function (req, res) {
 module.exports.getUserById = async function (req, res) {
   try {
     const user = await User.findById(req.params.userId);
+    if (!user) {
+      const err = new Error('Запрошенный пользователь не найден');
+      err.name = 'DocumentNotFound';
+      throw err;
+    }
     res.send(user);
   } catch (err) {
     errorHandler(err, res);
@@ -41,6 +51,11 @@ module.exports.updateUser = async function (req, res) {
         runValidators: true,
       },
     );
+    if (!user) {
+      const err = new Error('Запрошенный пользователь не найден');
+      err.name = 'DocumentNotFound';
+      throw err;
+    }
     res.send(user);
   } catch (err) {
     errorHandler(err, res);
@@ -58,6 +73,11 @@ module.exports.updateAvatar = async function (req, res) {
         new: true,
       },
     );
+    if (!user) {
+      const err = new Error('Запрошенный пользователь не найден');
+      err.name = 'DocumentNotFound';
+      throw err;
+    }
     res.send(user);
   } catch (err) {
     errorHandler(err, res);
