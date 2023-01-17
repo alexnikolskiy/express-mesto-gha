@@ -9,7 +9,7 @@ module.exports.getUsers = async function (req, res) {
       err.name = 'DocumentNotFound';
       throw err;
     }
-    res.send(users);
+    res.send({ data: users });
   } catch (err) {
     errorHandler(err, res);
   }
@@ -23,7 +23,7 @@ module.exports.getUserById = async function (req, res) {
       err.name = 'DocumentNotFound';
       throw err;
     }
-    res.send(user);
+    res.send({ data: user });
   } catch (err) {
     errorHandler(err, res);
   }
@@ -33,7 +33,7 @@ module.exports.createUser = async function (req, res) {
   try {
     const { name, about, avatar } = req.body;
     const user = await User.create({ name, about, avatar });
-    res.send(user);
+    res.send({ data: user });
   } catch (err) {
     errorHandler(err, res);
   }
@@ -50,13 +50,13 @@ module.exports.updateUser = async function (req, res) {
         new: true,
         runValidators: true,
       },
-    );
+    ).exec();
     if (!user) {
       const err = new Error('Запрошенный пользователь не найден');
       err.name = 'DocumentNotFound';
       throw err;
     }
-    res.send(user);
+    res.send({ data: user });
   } catch (err) {
     errorHandler(err, res);
   }
@@ -72,13 +72,13 @@ module.exports.updateAvatar = async function (req, res) {
       {
         new: true,
       },
-    );
+    ).exec();
     if (!user) {
       const err = new Error('Запрошенный пользователь не найден');
       err.name = 'DocumentNotFound';
       throw err;
     }
-    res.send(user);
+    res.send({ data: user });
   } catch (err) {
     errorHandler(err, res);
   }
