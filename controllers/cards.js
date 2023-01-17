@@ -33,7 +33,7 @@ module.exports.createCard = async function (req, res) {
 
 module.exports.deleteCardById = async function (req, res) {
   try {
-    const card = await Card.findByIdAndRemove(req.params.cardId).exec();
+    const card = await Card.findByIdAndRemove(req.params.cardId);
     if (!card) {
       const err = new Error('Запрошенная карточка не найдена');
       err.name = 'DocumentNotFound';
@@ -52,7 +52,7 @@ module.exports.addLikeCard = async function (req, res) {
       req.params.cardId,
       { $addToSet: { likes: owner } },
       { new: true },
-    ).exec();
+    );
     if (!card) {
       const err = new Error('Запрошенная карточка не найдена');
       err.name = 'DocumentNotFound';
@@ -71,7 +71,7 @@ module.exports.deleteLikeCard = async function (req, res) {
       req.params.cardId,
       { $pull: { likes: owner } },
       { new: true },
-    ).exec();
+    );
     if (!card) {
       const err = new Error('Запрошенная карточка не найдена');
       err.name = 'DocumentNotFound';
