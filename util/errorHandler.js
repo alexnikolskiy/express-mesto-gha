@@ -7,7 +7,7 @@ const errorHandler = (err, res) => {
     return;
   }
   if (err instanceof mongoose.Error.ValidationError) {
-    res.status(404).send({ message: `Переданы некорректные данные. Подробнее: ${err.message}` });
+    res.status(400).send({ message: `Переданы некорректные данные. Подробнее: ${err.message}` });
     return;
   }
   res.status(500).send({ message: 'Ошибка по-умолчанию' });
