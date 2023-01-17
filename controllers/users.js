@@ -42,10 +42,7 @@ module.exports.createUser = async function (req, res) {
 module.exports.updateUser = async function (req, res) {
   try {
     const owner = req.user._id;
-    console.log('owner (_id)', owner);
     const { name, about } = req.body;
-    console.log('name', name);
-    console.log('about', about);
     const user = await User.findByIdAndUpdate(
       owner,
       { name, about },
@@ -54,13 +51,12 @@ module.exports.updateUser = async function (req, res) {
         runValidators: true,
       },
     );
-    console.log('user', user);
     if (!user) {
       const err = new Error('Запрошенный пользователь не найден');
       err.name = 'DocumentNotFound';
       throw err;
     }
-    res.send({ data: user });
+    res.status(200).send({ data: user });
   } catch (err) {
     errorHandler(err, res);
   }
