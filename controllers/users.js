@@ -56,7 +56,7 @@ module.exports.updateUser = async function (req, res) {
       err.name = 'DocumentNotFound';
       throw err;
     }
-    res.status(200).send({ data: user });
+    res.send({ data: user });
   } catch (err) {
     errorHandler(err, res);
   }
