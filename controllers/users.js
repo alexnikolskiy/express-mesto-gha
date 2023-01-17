@@ -1,5 +1,4 @@
 const User = require('../models/user');
-const ValidationError = require('../errors/ValidationError');
 const DocumentNotFoundError = require('../errors/DocumentNotFoundError');
 const errorHandler = require('../util/errorHandler');
 
@@ -32,9 +31,6 @@ module.exports.getUserById = async function (req, res) {
 module.exports.createUser = async function (req, res) {
   try {
     const { name, about, avatar } = req.body;
-    if (!(name && about && avatar)) {
-      throw new ValidationError('Переданы некорректные данные при создании пользователя');
-    }
     const user = await User.create({ name, about, avatar });
     res.send(user);
   } catch (err) {
@@ -46,9 +42,6 @@ module.exports.updateUser = async function (req, res) {
   try {
     const owner = req.user._id;
     const { name, about } = req.body;
-    if (!((name || about) && owner)) {
-      throw new ValidationError('Переданы некорректные данные при обновлении профиля');
-    }
     const user = await User.findByIdAndUpdate(
       owner,
       { name, about },
@@ -71,9 +64,6 @@ module.exports.updateAvatar = async function (req, res) {
   try {
     const owner = req.user._id;
     const { avatar } = req.body;
-    if (!(avatar && owner)) {
-      throw new ValidationError('Переданы некорректные данные при обновлении аватара');
-    }
     const user = await User.findByIdAndUpdate(
       owner,
       { avatar },
